@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../../Styles/styleTD2.css/new 1.css" type="text/css" media="screen" />
+    <title>Questionnaire Étudiant</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #007BFF;
+            margin-bottom: 20px;
+        }
+
+        h3 {
+            text-align: center;
+            color: #555;
+            margin-bottom: 30px;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        fieldset {
+            border: 1px solid #007BFF;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            padding: 10px;
+        }
+
+        legend {
+            font-weight: bold;
+            color: #007BFF;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+
+        input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        .bouton input {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .bouton input:hover {
+            background-color: #218838;
+        }
+
+        /* Style pour le message d'erreur */
+        .message-erreur {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(255, 0, 0, 0.9);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            z-index: 1000;
+            text-align: center;
+        }
+
+        .message-erreur button {
+            background-color: #fff;
+            color: #000;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+    </style>
+    <script>
+        const reponsesCorrectes = {
+            question1: "rep2",
+            question2: "rep4",
+            question3: "rep1",
+            question4: "rep1"
+        };
+
+        function genererChiffreAleatoire() {
+            return Math.floor(Math.random() * 10);
+        }
+
+        function genererCode() {
+            let code = [];
+
+            for (let question in reponsesCorrectes) {
+                let bonneReponse = reponsesCorrectes[question];
+                let choix = document.querySelector(`input[name="${question}"]:checked`);
+
+                if (choix && choix.value === bonneReponse) {
+                    code.push(genererChiffreAleatoire());
+                } else {
+                    afficherMessageErreur();
+                    desactiverReponses();
+                    return null;
+                }
+            }
+            return code.join("");
+        }
+
+        function afficherMessageErreur() {
+            const messageErreur = document.querySelector('.message-erreur');
+            messageErreur.style.display = 'block';
+        }
+
+        function cacherMessageErreur() {
+            const messageErreur = document.querySelector('.message-erreur');
+            messageErreur.style.display = 'none';
+        }
+
+        function desactiverReponses() {
+            const reponses = document.querySelectorAll('input[type="radio"]');
+            reponses.forEach(radio => {
+                radio.disabled = true;
+            });
+        }
+
+        function Valider() {
+            let codeFinal = genererCode();
+            if (codeFinal) {
+                // Redirection vers code_d.html avec le code en tant que paramètre d'URL
+                window.location.href = `code_d.html?code=${codeFinal}`;
+            }
+            return false; // Empêche le rechargement de la page
+        }
+    </script>
+</head>
+<body>
+
+    <h1>Questionnaire permettant de débloquer un code à 4 chiffres</h1>
+    <h3>Répondez correctement aux questions pour obtenir un code à 4 chiffres.<br> Bonne chance !</h3>
+
+    <form onsubmit="return Valider();">
+
+        <div class="Question 1">
+            <fieldset>
+                <legend>Que signifie l’acronyme RSE ?</legend>
+                <label for="id_rep1_1">Réseau Social d’Entreprises</label>
+                <input type="radio" value="rep1" name="question1" id="id_rep1_1" />
+                <label for="id_rep1_2">Responsabilité Sociale des Entreprises</label>
+                <input type="radio" value="rep2" name="question1" id="id_rep1_2" />
+                <label for="id_rep1_3">Réduction des Services d’Énergie</label>
+                <input type="radio" value="rep3" name="question1" id="id_rep1_3" />
+                <label for="id_rep1_4">Régulation des Sociétés Européennes</label>
+                <input type="radio" value="rep4" name="question1" id="id_rep1_4" />
+            </fieldset>
+        </div>
+
+        <div class="Question 2">
+            <fieldset>
+                <legend>La RSE encourage les entreprises à :</legend>
+                <label for="id_rep2_1">Gagner plus d'argent</label>
+                <input type="radio" value="rep1" name="question2" id="id_rep2_1" />
+                <label for="id_rep2_2">Réduire le nombre d’employés</label>
+                <input type="radio" value="rep2" name="question2" id="id_rep2_2" />
+                <label for="id_rep2_3">Développer de nouveaux produits</label>
+                <input type="radio" value="rep3" name="question2" id="id_rep2_3" />
+                <label for="id_rep2_4">Protéger l’environnement et aider la société</label>
+                <input type="radio" value="rep4" name="question2" id="id_rep2_4" />
+            </fieldset>
+        </div>
+
+        <div class="Question 3">
+            <fieldset>
+                <legend>Une entreprise qui fait du RSE doit :</legend>
+                <label for="id_rep3_1">Travailler pour avoir un impact positif sur la société</label>
+                <input type="radio" value="rep1" name="question3" id="id_rep3_1" />
+                <label for="id_rep3_2">Ignorer les problèmes sociaux</label>
+                <input type="radio" value="rep2" name="question3" id="id_rep3_2" />
+                <label for="id_rep3_3">Licencier les employés</label>
+                <input type="radio" value="rep3" name="question3" id="id_rep3_3" />
+                <label for="id_rep3_4">Utiliser uniquement des matériaux coûteux</label>
+                <input type="radio" value="rep4" name="question3" id="id_rep3_4" />
+            </fieldset>
+        </div>
+
+        <div class="Question 4">
+            <fieldset>
+                <legend>Quel est un exemple de bonne pratique RSE ?</legend>
+                <label for="id_rep4_1">Utiliser des voitures électriques</label>
+                <input type="radio" value="rep1" name="question4" id="id_rep4_1" />
+                <label for="id_rep4_2">Augmenter les bénéfices sans tenir compte des conséquences</label>
+                <input type="radio" value="rep2" name="question4" id="id_rep4_2" />
+                <label for="id_rep4_3">Réduire le nombre de congés payés</label>
+                <input type="radio" value="rep3" name="question4" id="id_rep4_3" />
+                <label for="id_rep4_4">Utiliser des ressources non renouvelables</label>
+                <input type="radio" value="rep4" name="question4" id="id_rep4_4" />
+            </fieldset>
+        </div>
+
+        <div class="container">
+            <div class="bouton">
+                <input type="submit" value="Envoyer mes réponses" />
+            </div>
+        </div>
+
+    </form>
+
+    <div class="message-erreur">
+        <p>Réponse incorrecte ! Vous devez repayer 2€ pour retenter votre chance.</p>
+        <button onclick="cacherMessageErreur()">Fermer</button>
+    </div>
+
+</body>
+</html>
